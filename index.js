@@ -91,6 +91,7 @@ app.routes.use(/^\/(did:.+)$/, async (req, res, next) => {
   else
     next()
 })
+
 app.routes.get(/^\/(did:.+)$/, async (req, res, next) => {
   const { did } = req
   const didDocument = await app.jlinx.resolveDid(did)
@@ -103,14 +104,14 @@ app.routes.get(/^\/(did:.+)$/, async (req, res, next) => {
 })
 
 app.routes.get('/status', async (req, res, next) => {
-  const status = await app.jlinx.agent.hypercore.status()
+  const status = await app.jlinx.server.hypercore.status()
   res.json({
     hypercore: status,
   })
 })
 
 app.routes.post('/new', async (req, res, next) => {
-  const { did, secret } = await app.jlinx.agent.createDid()
+  const { did, secret } = await app.jlinx.server.createDid()
   res.json({ did, secret })
 })
 
@@ -118,7 +119,7 @@ app.routes.post(/^\/(did:.+)$/, async (req, res, next) => {
   const { did } = req
   const { secret, value } = req.body
   debug('amending did')
-  await app.jlinx.agent.amendDid({
+  await app.jlinx.server.amendDid({
     did, secret, value
   })
   res.json({})

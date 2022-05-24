@@ -34,9 +34,7 @@ app.start = async function start(){
   const start = () =>
     new Promise((resolve, reject) => {
       app.server = app.listen(app.port, error => {
-        if (error) return reject(error)
-        console.log(`jlinx http server running http://localhost:${app.port}`)
-        resolve();
+        if (error) { reject(error) } else { resolve() }
       })
     })
 
@@ -44,6 +42,10 @@ app.start = async function start(){
     app.jlinx.connected(),
     start(),
   ])
+
+  const { agentPublicKey } = await app.jlinx.config.read()
+  console.log(`jlinx http server running http://localhost:${app.port}`)
+  console.log(`jlinx agent public key: ${agentPublicKey}`)
 }
 
 app.stop = async function stop() {

@@ -44,6 +44,7 @@ app.start = async function start(){
   ])
 
   const { agentPublicKey } = await app.jlinx.config.read()
+  app.locals.agentPublicKey = agentPublicKey
   console.log(`jlinx http server running http://localhost:${app.port}`)
   console.log(`jlinx agent public key: ${agentPublicKey}`)
 }

@@ -3,6 +3,7 @@
   <head>
     <title>{{title}}</title>
     <link type="text/css" rel="stylesheet" href="/almond.css"/>
+    <link type="text/css" rel="stylesheet" href="/main.css"/>
     <style>
       form input[type=text]{
         width: 100%;
@@ -13,11 +14,17 @@
     </style>
   </head>
   <body>
-    <a href="/"><h1>JLINX DID Resolver</h1></a>
-    <div class="container">
-      <h1><a href="/">{{appName}}</a></h1>
-      {{{body}}}
-    </div>
+    <main>
+      <a href="/"><h1>JLINX DID Resolver</h1></a>
+      <div class="container">
+        <h1><a href="/">{{appName}}</a></h1>
+        {{{body}}}
+      </div>
+    </main>
+    <footer style="text-align: center">
+      <div>Copyright © 2021 Portable Data Corp</div>
+      <div>JLINX Agent Public Key:&nbsp;<span>{{agentPublicKey}}</span></div>
+    </footer>
   </body>
 </html>
 

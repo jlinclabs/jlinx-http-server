@@ -1,4 +1,5 @@
 import Debug from 'debug'
+import { promisify } from 'node:util'
 import Path from 'path'
 import { fileURLToPath } from 'url'
 import express from 'express'
@@ -31,22 +32,15 @@ app.start = async function start(){
     storagePath: app.storagePath,
   })
 
-  const start = () =>
-    new Promise((resolve, reject) => {
-      app.server = app.listen(app.port, error => {
-        if (error) { reject(error) } else { resolve() }
-      })
-    })
+  debug('connecting to jlinx…')
+  app.ready = app.jlinx.connected().then(async () => {
+    const { agentPublicKey } = await app.jlinx.config.read()
+    app.locals.agentPublicKey = agentPublicKey
+    console.log(`jlinx agent public key: ${agentPublicKey}`)
+  })
 
-  await Promise.all([
-    app.jlinx.connected(),
-    start(),
-  ])
-
-  const { agentPublicKey } = await app.jlinx.config.read()
-  app.locals.agentPublicKey = agentPublicKey
+  app.server = await promisify(app.listen).call(app, app.port)
   console.log(`jlinx http server running http://localhost:${app.port}`)
-  console.log(`jlinx agent public key: ${agentPublicKey}`)
 }
 
 app.stop = async function stop() {
@@ -78,6 +72,12 @@ function renderError(req, res, error, statusCode = 401){
 // ROUTES
 app.routes = new ExpressPromiseRouter
 app.use(app.routes)
+
+app.routes.use(async (req, res, next) => {
+  debug(req.method, req.url)
+  await app.ready
+  next()
+})
 
 app.routes.get('/', async (req, res, next) => {
   const { did } = req.query

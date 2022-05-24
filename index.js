@@ -6,8 +6,8 @@ import ExpressPromiseRouter from 'express-promise-router'
 import hbs from 'express-hbs'
 import bodyParser from 'body-parser'
 
-import { isJlinxDid } from 'jlinx-core/util.js'
-import JlinxApp from 'jlinx-app'
+import { isJlinxDid } from 'jlinx-util'
+import JlinxClient from 'jlinx-client'
 
 const debug = Debug('jlinx:http-server')
 
@@ -27,7 +27,7 @@ app.port = getEnvVar('PORT')
 app.storagePath = getEnvVar('JLINX_STORAGE')
 app.start = async function start(){
   debug('starting')
-  app.jlinx = new JlinxApp({
+  app.jlinx = new JlinxClient({
     storagePath: app.storagePath,
   })
 

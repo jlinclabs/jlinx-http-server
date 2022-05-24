@@ -16,11 +16,11 @@ $ PORT=8080 jlinx-server start
 or
 
 ```js
-import hypDidServer from 'jlinx-server'
-const didServer = hypDidServer({
+import jlinxHttpServer from 'jlinx-http-server'
+const server = jlinxHttpServer({
   storagePath: './path/to/store/hypercores',
   port: 8080,
 })
-didServer.start()
+server.start()
 ```
 

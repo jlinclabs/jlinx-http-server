@@ -6,6 +6,16 @@ persisted and shared using the
 [Hypercore protocol](https://hypercore-protocol.org)
 
 
+## Development
+
+```bash
+DEBUG=jlinx* PORT=3001 JLINX_STORAGE=~/tmp/jlinx-3001 npm start
+```
+
+```bash
+nodemon -w ../ --exec
+```
+
 ## Setup
 
 ```bash
